@@ -1,0 +1,20 @@
+// Media queries control
+@mixin for-size($size) {
+  @if $size==sm-up {
+    @media (min-width: 576px) {
+      @content;
+    }
+  } @else if $size==md-up {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $size==m-up {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $size==xl-up {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+}

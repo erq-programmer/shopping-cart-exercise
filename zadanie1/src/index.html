@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Cart</title>
+  </head>
+  <body>
+    <main class="wrapper">
+      <div class="wrapper__product">
+        <h1 class="title">Shopping Cart</h1>
+        <section class="products">
+          <header class="products__category">
+            <ul class="category__list">
+              <li class="category__item category__item--name">Product Name</li>
+              <li class="category__item category__item--unit-price">Unit Price</li>
+              <li class="category__item category__item--qty">Qty</li>
+            </ul>
+          </header>
+
+          <ul class="products__list">
+            <li>
+              <article class="product__item">
+                <button class="item__delete"><img src="./images/x-img.png" alt="" /></button>
+                <img class="item__image" src="./images/headphones.png" alt="headphones" />
+                <h2 class="item__title">Headphones</h2>
+                <p class="item__price">$11.90</p>
+                <section class="item__quantity">
+                  <button class="item__minus">-</button>
+                  <input class="item__input" type="text" name="name" value="1" />
+                  <button class="item__plus">+</button>
+                </section>
+                <button class="item__edit"><img src="./images/edit-img.png" alt="" /></button>
+              </article>
+            </li>
+          </ul>
+
+          <button class="products__update">Update Shopping Cart</button>
+        </section>
+      </div>
+
+      <section class="checkout">
+        <button class="checkout__proceed">Proceed to checkout</button>
+        <section class="checkout__shipping">
+          <header class="checkout__header">
+            <h3 class="shipping__title">Shipping</h3>
+            <p class="shipping__price">$23.80</p>
+          </header>
+        </section>
+
+        <section class="checkout__cart">
+          <header class="checkout__header">
+            <h3>Cart Totals</h3>
+          </header>
+          <ul class="checkout__totals">
+            <li class="total__item">
+              <h4 class="subtotal">Subtotal</h4>
+              <p class="subtotal__price">$23.80</p>
+            </li>
+            <li class="total__item">
+              <h4 class="grand-total">Grand Total</h4>
+              <p class="grand-total__price">$23.80</p>
+            </li>
+          </ul>
+          <button class="checkout__proceed checkout__proceed--total">Proceed to checkout</button>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
