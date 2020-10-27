@@ -15,13 +15,14 @@ const productList = [
     id: 2,
     name: 'Headphones',
     price: 24.4,
-    quantity: 0,
+    quantity: 2,
   }
 ]
 
 const App = () => {
   const [cart, setCart] = useState(productList);
-  const cartTotal = cart.reduce((total, { price = 0 }) => total + price, 0);
+  const subtotal = cart.reduce((total, { price = 0, quantity }) => total + price * quantity, 0).toFixed([2]);
+  const grandtotal = cart.reduce((total, { price = 0, quantity }) => total + price * quantity, subtotal <= 100 && cart.length !== 0 ? 23.80 : 0).toFixed([2]);
 
   const removeFromCart = (item) => {
     setCart((currentCart) => {
@@ -38,6 +39,16 @@ const App = () => {
     });
   };
 
+const quantityCount = (currentItem, value) => {
+   const updatedCart = cart.map(item => item.id === currentItem.id ? {
+     id: item.id,
+     name: item.name,
+     price: item.price,
+     quantity: item.quantity += value,
+   } : item);
+   setCart(updatedCart);
+
+}
   return (
     <main className='wrapper'>
       <div className='wrapper__product'>
@@ -62,7 +73,7 @@ const App = () => {
               <h2 className='item__title'>{item.name}</h2>
               <p className='item__price'>${item.price}</p>
               <section className='item__quantity'>
-                <button className='item__minus' onClick={() => minusQuantity(item)}>
+                <button className='item__minus' onClick={() => quantityCount(item, -1)}>
                   -
                 </button>
                 <input
@@ -70,9 +81,9 @@ const App = () => {
                   type='text'
                   name='quantity'
                   value={item.quantity}
-                  // onChange={handleChange}
+                  readOnly
                 />
-                <button className='item__plus'>
+                <button className='item__plus' onClick={() => quantityCount(item, +1)}>
                   +
                 </button>
               </section>
@@ -81,11 +92,8 @@ const App = () => {
               </button>
             </article>
           </li>
-            
             )}
-            
           </ul>
-
           <button className='products__update'>Update Shopping Cart</button>
         </section>
       </div>
@@ -94,7 +102,7 @@ const App = () => {
         <section className='checkout__shipping'>
           <header className='checkout__header'>
             <h3 className='shipping__title'>Shipping</h3>
-            <p className='shipping__price'>$23.80</p>
+            <p className='shipping__price'>${(subtotal > 100 ? 0 : 23.80).toFixed([2]) }</p>
           </header>
         </section>
 
@@ -105,11 +113,11 @@ const App = () => {
           <ul className='checkout__totals'>
             <li className='total__item'>
               <h4 className='subtotal'>Subtotal</h4>
-            <p className='subtotal__price'>{cartTotal}</p>
+            <p className='subtotal__price'>${subtotal}</p>
             </li>
             <li className='total__item'>
               <h4 className='grand-total'>Grand Total</h4>
-              <p className='grand-total__price'>$23.80</p>
+              <p className='grand-total__price'>${grandtotal}</p>
             </li>
           </ul>
           <button className='checkout__proceed checkout__proceed--total'>
