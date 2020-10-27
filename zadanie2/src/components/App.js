@@ -1,18 +1,42 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState} from 'react';
 import edit from '../images/edit-img.png';
 import xButton from '../images/x-img.png';
 import headphones from '../images/headphones.png';
 
 const productList = [
   {
+    id: 1,
     name: 'Headphones',
     price: 11.9,
+    quantity: 1,
   },
-];
+  {
+    id: 2,
+    name: 'Headphones',
+    price: 24.4,
+    quantity: 0,
+  }
+]
 
 const App = () => {
-  const [count, setCount] = useState(1);
+  const [cart, setCart] = useState(productList);
+  const cartTotal = cart.reduce((total, { price = 0 }) => total + price, 0);
+
+  const removeFromCart = (item) => {
+    setCart((currentCart) => {
+      const indexOfItemToRemove = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+
+      if (indexOfItemToRemove === -1) {
+        return currentCart;
+      }
+
+      return [
+        ...currentCart.slice(0, indexOfItemToRemove),
+        ...currentCart.slice(indexOfItemToRemove + 1),
+      ];
+    });
+  };
 
   return (
     <main className='wrapper'>
@@ -28,34 +52,38 @@ const App = () => {
           </header>
 
           <ul className='products__list'>
-            <li>
-              <article className='product__item'>
-                <button className='item__delete'>
-                  <img src={xButton} alt='' />
+            {cart.map((item) => 
+            <li key={item.id}>
+            <article className='product__item'>
+              <button className='item__delete' onClick={() => removeFromCart(item)}>
+                <img src={xButton} alt='' />
+              </button>
+              <img className='item__image' src={headphones} alt='headphones' />
+              <h2 className='item__title'>{item.name}</h2>
+              <p className='item__price'>${item.price}</p>
+              <section className='item__quantity'>
+                <button className='item__minus' onClick={() => minusQuantity(item)}>
+                  -
                 </button>
-                <img className='item__image' src={headphones} alt='headphones' />
-                <h2 className='item__title'>{productList[0].name}</h2>
-                <p className='item__price'>${productList[0].price}</p>
-                <section className='item__quantity'>
-                  <button className='item__minus' onClick={() => setCount(count - 1)}>
-                    -
-                  </button>
-                  <input
-                    className='item__input'
-                    type='text'
-                    name='quantity'
-                    value={count}
-                    // onChange={handleChange}
-                  />
-                  <button className='item__plus' onClick={() => setCount(count + 1)}>
-                    +
-                  </button>
-                </section>
-                <button className='item__edit'>
-                  <img src={edit} alt='' />
+                <input
+                  className='item__input'
+                  type='text'
+                  name='quantity'
+                  value={item.quantity}
+                  // onChange={handleChange}
+                />
+                <button className='item__plus'>
+                  +
                 </button>
-              </article>
-            </li>
+              </section>
+              <button className='item__edit'>
+                <img src={edit} alt='' />
+              </button>
+            </article>
+          </li>
+            
+            )}
+            
           </ul>
 
           <button className='products__update'>Update Shopping Cart</button>
@@ -77,7 +105,7 @@ const App = () => {
           <ul className='checkout__totals'>
             <li className='total__item'>
               <h4 className='subtotal'>Subtotal</h4>
-              <p className='subtotal__price'>$23.80</p>
+            <p className='subtotal__price'>{cartTotal}</p>
             </li>
             <li className='total__item'>
               <h4 className='grand-total'>Grand Total</h4>
